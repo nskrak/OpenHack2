@@ -6,6 +6,7 @@ import android.graphics.Point;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,6 +43,7 @@ public class CircleDrawer {
         circle.strokeWidth(2);
         System.out.println("Mmap: " + mMap);
         mMap.addCircle(circle);
+        mMap.addMarker(new MarkerOptions().position(p).title("Cykelpump"));
     }
 
     public void createCircles(){

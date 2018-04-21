@@ -1,8 +1,12 @@
 package com.example.nskra.openhack;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,10 +18,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.net.*;
 import java.util.Map;
 
+
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Map<String, Bikepump> pumps;
+    protected LocationManager locationManager;
+    protected LocationListener locationListener;
+    protected Context context;
+    TextView txtLat;
+    String lat;
+    String provider;
+    protected String latitude,longitude;
+    protected boolean gps_enabled,network_enabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
