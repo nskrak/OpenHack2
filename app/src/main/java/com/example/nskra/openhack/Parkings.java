@@ -45,6 +45,9 @@ public class Parkings { // kanske kan implementa ett interace som alla objekten 
     public String getTime(){
         return time;
     }
+    public void setCost(int newCost){
+        this.cost = newCost;
+    }
     public String toString(){
         return place + " " + status + " \nAvgift: " + payTime + ", kostar: " + cost + "\nDu får stå: " + time;
     }
