@@ -12,10 +12,12 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import java.net.*;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Map<String, Bikepump> pumps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        try{
-            new CykelpumpData().execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
-        }catch (Exception e){
-            System.out.println(e);
-        }
 
     }
 
@@ -46,6 +43,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        try{
+            CykelpumpData cpd = new CykelpumpData(mMap);
+            cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
 
         // Add a marker in Sydney and move the camera
         LatLng Helsingborg = new LatLng(56.0384836, 12.6966470);

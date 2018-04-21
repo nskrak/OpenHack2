@@ -15,11 +15,11 @@ import org.json.simple.parser.JSONParser;
 
 public class DataWeb {
 
-    public static Object[][] coords() throws IOException {
+    public static Object[][] coords(URL url) throws IOException {
     	JSONParser parser = new JSONParser();
     	
         // Make a URL to the web page
-        URL url = new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar");
+
         // Get the input stream through URL Connection
         URLConnection con = url.openConnection();
         InputStream is = con.getInputStream();
@@ -62,13 +62,12 @@ public class DataWeb {
         return null;
     }
     
-    public Map fetchPumps() {
+    public Map fetchPumps(URL url) {
     	Map bikePumps = new HashMap<String, Bikepump>();
     	JSONParser parser = new JSONParser();
     	
         // Make a URL to the web page
     	try {
-            URL url = new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar");
             // Get the input stream through URL Connection
             URLConnection con = url.openConnection();
             InputStream is = con.getInputStream();	

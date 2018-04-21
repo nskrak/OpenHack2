@@ -2,6 +2,8 @@ package com.example.nskra.openhack;
 
 import android.os.AsyncTask;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
@@ -13,22 +15,39 @@ import java.util.Random;
  * Created by nskra on 2018-04-21.
  */
 
-public class CykelpumpData extends AsyncTask<URL, Integer, Long> {
+public class CykelpumpData extends AsyncTask<URL, Integer, Integer> {
 
     private Map<String, Bikepump> bikePumps;
+    private CircleDrawer drawer;
+    GoogleMap mMap;
+
+    public CykelpumpData(GoogleMap mMap){
+        this.mMap = mMap;
+    }
 
     @Override
-    protected Long doInBackground(URL... urls) {
+    protected Integer doInBackground(URL... urls) {
         try{
-            bikePumps = new DataWeb().fetchPumps(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
-        }catch(IOException e){
+            bikePumps = new DataWeb().fetchPumps(urls[0]);
+
+        }catch(Exception e){
             System.out.println(e);
         }
-        return null;
+        return 0;
     }
 
     public Map<String, Bikepump> getBikePumps(){
         return bikePumps;
+    }
+
+
+
+    protected void onPostExecute(Integer result) {
+        System.out.println(mMap);
+        drawer = new CircleDrawer(bikePumps, mMap);
+        System.out.println(bikePumps);
+        System.out.println(drawer);
+        drawer.createCircles();
     }
 
 
