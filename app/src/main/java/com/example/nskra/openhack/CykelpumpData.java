@@ -17,12 +17,12 @@ public class CykelpumpData extends AsyncTask<URL, Integer, Long> {
 
     @Override
     protected Long doInBackground(URL... urls) {
-        try{
+        /*try{
             taker.takeData(urls[0]);
         }catch(IOException e){
             System.out.println(e);
         }
-        return null;
+        */return null;
     }
 
 

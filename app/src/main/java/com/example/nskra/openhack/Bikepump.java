@@ -1,4 +1,4 @@
-package hsfoihuoaf;
+package com.example.nskra.openhack;
 
 public class Bikepump { // kanske kan implementa ett interace som alla objekten ärver från
 

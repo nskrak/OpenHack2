@@ -1,4 +1,4 @@
-package hsfoihuoaf;
+package com.example.nskra.openhack;
 
 import java.io.IOException;
 import java.util.HashMap;

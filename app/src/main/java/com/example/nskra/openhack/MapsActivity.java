@@ -58,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         new CircleDrawer(mMap, Helsingborg);
 */
 
+//some random text
 
     }
 

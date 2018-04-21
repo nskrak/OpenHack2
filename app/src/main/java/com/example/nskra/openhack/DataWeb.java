@@ -1,4 +1,4 @@
-package hsfoihuoaf;
+package com.example.nskra.openhack;
 
 import java.io.BufferedReader;
 import java.io.IOException;
