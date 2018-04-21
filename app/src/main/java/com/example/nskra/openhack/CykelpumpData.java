@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class CykelpumpData extends AsyncTask<URL, Integer, Integer> {
 
-    private Map<String, Bikepump> bikePumps;
+    private Map<String, Parkings> bikePumps;
     private CircleDrawer drawer;
     GoogleMap mMap;
 
@@ -28,7 +28,7 @@ public class CykelpumpData extends AsyncTask<URL, Integer, Integer> {
     @Override
     protected Integer doInBackground(URL... urls) {
         try{
-            bikePumps = new DataWeb().fetchPumps(urls[0]);
+            bikePumps = new DataWeb().fetchParks(urls[0]);
 
         }catch(Exception e){
             System.out.println(e);
@@ -37,17 +37,17 @@ public class CykelpumpData extends AsyncTask<URL, Integer, Integer> {
     }
 
     public Map<String, Bikepump> getBikePumps(){
-        return bikePumps;
+        return null;
     }
 
 
 
     protected void onPostExecute(Integer result) {
         System.out.println(mMap);
-        drawer = new CircleDrawer(bikePumps, mMap);
+        drawer = new CircleDrawer(bikePumps, mMap, 1);
         System.out.println(bikePumps);
         System.out.println(drawer);
-        drawer.createCircles();
+        drawer.createCirclesForParkings();
     }
 
 

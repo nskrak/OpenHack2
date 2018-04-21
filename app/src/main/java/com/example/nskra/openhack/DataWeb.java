@@ -1,5 +1,4 @@
 package com.example.nskra.openhack;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,104 +14,121 @@ import org.json.simple.parser.JSONParser;
 
 public class DataWeb {
 
-    public static Object[][] coords(URL url) throws IOException {
-    	JSONParser parser = new JSONParser();
-    	
-        // Make a URL to the web page
-
-        // Get the input stream through URL Connection
-        URLConnection con = url.openConnection();
-        InputStream is = con.getInputStream();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-        
-        try {
- 
-            Object obj = parser.parse(br);
-            JSONObject jsonObject = (JSONObject) obj;
-            
-            long antal = (Long) jsonObject.get("nhits");
-            int santal = (int)antal;
-            
-            JSONArray records = (JSONArray) jsonObject.get("records");
-            
-            Object[][] xy = new Object[santal][2];
-            
-            System.out.println("Tr�ffar: " + antal);
-            System.out.println("\nPumpar:");
-            
-            for(int i = 0; i < antal; i++){
-            	Map geo = (Map) ((Map) records.get(i)).get("geometry");
-            	JSONArray coords = (JSONArray) geo.get("coordinates");
-            	for(int j = 0; j < 2; j++){
-            		xy[i][j] = coords.get(j);
-            	}
-            }
-//            for(int i = 0; i < 10; i++){
-//            	System.out.println("");
-//            	for(int j = 0; j < 2; j++){
-//            		System.out.print(xy[i][j] + " ");
-//            	}
-//            }
-            return xy;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
     public Map fetchPumps(URL url) {
-    	Map bikePumps = new HashMap<String, Bikepump>();
-    	JSONParser parser = new JSONParser();
-    	
+        Map bikePumps = new HashMap<String, Bikepump>();
+        JSONParser parser = new JSONParser();
+
         // Make a URL to the web page
-    	try {
+        try {
             // Get the input stream through URL Connection
             URLConnection con = url.openConnection();
-            InputStream is = con.getInputStream();	
+            InputStream is = con.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             try {
-            	 
+
                 Object obj = parser.parse(br);
                 JSONObject jsonObject = (JSONObject) obj;
-                
-                long nhits = (Long) jsonObject.get("nhits"); 
+
+                long nhits = (Long) jsonObject.get("nhits");
                 int numberOfPumps = (int) nhits;
-                
+
                 //JSONArray records = (JSONArray) jsonObject.get("records");
                 JSONArray records = (JSONArray) jsonObject.get("records");
-                
+
                 for(int i = 0; i < records.size(); i++){
-                	Map pump = (Map) records.get(i); //Each individual pump
-                	
-                	//recordId 
-                	String recordId = pump.get("recordid").toString();
-                	
-                	//Cooridinates
-                	Map geometry = (Map) pump.get("geometry");
-                	JSONArray coordinates = (JSONArray) geometry.get("coordinates");
-                	double longitude = (double) coordinates.get(0);
+                    Map pump = (Map) records.get(i); //Each individual pump
+
+                    //recordId
+                    String recordId = pump.get("recordid").toString();
+
+                    //Cooridinates
+                    Map geometry = (Map) pump.get("geometry");
+                    JSONArray coordinates = (JSONArray) geometry.get("coordinates");
+                    double longitude = (double) coordinates.get(0);
                     double latitude = (double) coordinates.get(1);
-                    
-                    
-                	//Description
+
+
+                    //Description
                     Map fields = (Map) pump.get("fields");
                     String description = fields.get("beskrivning").toString();
-                    
+
                     //Create new pumpObject
                     Bikepump bikePump = new Bikepump(longitude, latitude, description);
                     bikePumps.put(recordId, bikePump);
-                    
+
                 }
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return bikePumps;
+    }
+    public Map fetchParks(URL url) {
+        Map parkLots = new HashMap<String, Parkings>();
+        JSONParser parser = new JSONParser();
+
+        // Make a URL to the web page
+        try {
+
+
+            // Get the input stream through URL Connection
+            URLConnection con = url.openConnection();
+            InputStream is = con.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            try {
+
+                Object obj = parser.parse(br);
+                JSONObject jsonObject = (JSONObject) obj;
+
+//                long nhits = (Long) jsonObject.get("nhits");
+//                int numberOfPumps = (int) nhits;
+
+                JSONArray records = (JSONArray) jsonObject.get("records");
+
+                for(int i = 0; i < records.size(); i++){
+                    Map park = (Map) records.get(i); //Each individual parking lot
+
+                    //recordId
+                    String recordId = park.get("recordid").toString();
+
+                    //Coordinates
+                    Map geometry = (Map) park.get("geometry");
+                    JSONArray coordinates = (JSONArray) geometry.get("coordinates");
+                    double longitude = (double) coordinates.get(0);
+                    double latitude = (double) coordinates.get(1);
+
+
+                    //Description
+                    Map fields = (Map) park.get("fields");
+                    String plats = fields.get("plats").toString();
+
+                    //Cost
+                    int cost = Integer.parseInt(fields.get("taxa").toString());
+                    //Status
+                    String status = (String) fields.get("status");
+                    //payTime
+                    String payTime = (String) fields.get("avgift");
+                    //staytime
+                    String time = (String) fields.get("tid");
+
+                    //Create new Parkings-object
+                    Parkings parkLot = new Parkings(longitude, latitude, plats, cost, status, payTime, time);
+                    parkLots.put(recordId, parkLot);
+
+
+
+                }
+
             } catch (Exception e) {
-			// TODO: handle exception
-		}
-    	return bikePumps;
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return parkLots;
     }
 }

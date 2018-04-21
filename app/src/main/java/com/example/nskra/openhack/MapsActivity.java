@@ -79,7 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         try {
             CykelpumpData cpd = new CykelpumpData(mMap);
-            cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
+            //cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
+            cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=parkering_new&rows=-1"));
         } catch (Exception e) {
             System.out.println(e);
         }

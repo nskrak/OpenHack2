@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -21,6 +22,7 @@ public class CircleDrawer {
     private LatLng point;
     private CykelpumpData cData;
     private Map<String, Bikepump> pumps;
+    private Map<String, Parkings> park;
 
     public CircleDrawer(GoogleMap mMap, LatLng point){
         this.mMap = mMap;
@@ -32,6 +34,12 @@ public class CircleDrawer {
         this.pumps = pumps;
         this.mMap = mMap;
     }
+
+    public CircleDrawer(Map<String, Parkings> parks, GoogleMap mMap, int check){
+        this.park = parks;
+        this.mMap = mMap;
+    }
+
 
     public void drawCircle(double latitude, double longitude){
         CircleOptions circle = new CircleOptions();
@@ -46,12 +54,19 @@ public class CircleDrawer {
         mMap.addMarker(new MarkerOptions().position(p).title("Cykelpump"));
     }
 
-    public void createCircles(){
+    public void createCirclesForPumps(){
         for(String pump: pumps.keySet()){
             Bikepump bp = pumps.get(pump);
             drawCircle(bp.getLatitude(), bp.getLongitude());
         }
 
+    }
+
+    public void createCirclesForParkings(){
+        for(String par: park.keySet()){
+            Parkings p = park.get(par);
+            drawCircle(p.getLatitude(), p.getLongitude());
+        }
     }
 
 }
