@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Taker {
-	public static void main(String[] args)throws IOException{
-		/*
+/*	public static void main(String[] args)throws IOException{
+		*//*
 		Object[][] xy = DataWeb.coords();
 		double[][] corr = new double[xy.length][xy[0].length];
 		String s;
@@ -28,7 +28,7 @@ public class Taker {
 			}
 		}
 		System.out.println("####");
-		*/
+		*//*
 		// ^---- OLD NEW / IN PROGRESS ---v
 		Map bikePumps = new HashMap<String, Bikepump>();
 		DataWeb dw = new DataWeb();
@@ -46,7 +46,7 @@ public class Taker {
 		// mapTest();
 		
 	}
-	
+	*/
 	
 	public static void mapTest(){
 		
