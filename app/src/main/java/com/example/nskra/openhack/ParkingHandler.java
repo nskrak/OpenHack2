@@ -54,8 +54,9 @@ public class ParkingHandler {
             }
 
             cost = p.getCost();
-            while(currentLong == 0 && currentLat == 0){
+
             distance = Math.hypot(Math.abs(currentLat - p.getLatitude()), Math.abs(currentLong - p.getLongitude()));
+
             System.out.println("Distance for " + p.getPlace() + ": " + distance);
 
 
