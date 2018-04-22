@@ -25,7 +25,7 @@ public class ParkingHandler {
         parkeringar = new ArrayList<>();
     }
 
-    public void removeNonAvailable(){
+    public void removeNonAvailable(double currentLong, double currentLat){
 
         for(String parking: parkings.keySet()){
             Parkings p = parkings.get(parking);
@@ -35,6 +35,8 @@ public class ParkingHandler {
             int currentMinute = current.getMinuteOfDay();
             int startMinute = Integer.MAX_VALUE;
             int endMinute = Integer.MIN_VALUE;
+            double distance = 0;
+            int cost = 0;
             System.out.println(p.getPayTime());
             String[] time = p.getPayTime().split("-");
             String[] firstTime = time[0].split(":");
@@ -47,7 +49,14 @@ public class ParkingHandler {
             }catch(Exception e){
                 System.out.println("Could not convert to int");
             }
-            if(currentMinute < startMinute || currentMinute > endMinute) continue;
+            if(currentMinute < startMinute || currentMinute > endMinute){
+                p.setCost(0);
+            }
+
+            cost = p.getCost();
+            while(currentLong == 0 && currentLat == 0){
+            distance = Math.hypot(Math.abs(currentLat - p.getLatitude()), Math.abs(currentLong - p.getLongitude()));
+            System.out.println("Distance for " + p.getPlace() + ": " + distance);
 
 
         }

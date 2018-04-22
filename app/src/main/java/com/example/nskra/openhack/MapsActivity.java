@@ -40,11 +40,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String provider;
     protected String latitude, longitude;
     protected boolean gps_enabled, network_enabled;
+    double[] myCoor = new double[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        myCoor[0] = 0;
+        myCoor[1] = 0;
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -79,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         try {
-            CykelpumpData cpd = new CykelpumpData(mMap);
+            CykelpumpData cpd = new CykelpumpData(mMap, myCoor);
             //cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
             cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=parkering_new&rows=-1"));
         } catch (Exception e) {
@@ -117,6 +120,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         //txtLat = (TextView) findViewById(R.id.textview1);
         System.out.println("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+        myCoor[0] = location.getLatitude();
+        myCoor[1] = location.getLongitude();
+
     }
 
     @Override

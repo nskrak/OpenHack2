@@ -20,9 +20,11 @@ public class CykelpumpData extends AsyncTask<URL, Integer, Integer> {
     private Map<String, Parkings> bikePumps;
     private CircleDrawer drawer;
     GoogleMap mMap;
+    double[] coor;
 
-    public CykelpumpData(GoogleMap mMap){
+    public CykelpumpData(GoogleMap mMap, double[] coor){
         this.mMap = mMap;
+        this.coor = coor;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class CykelpumpData extends AsyncTask<URL, Integer, Integer> {
         drawer = new CircleDrawer(bikePumps, mMap, 1);
         System.out.println(bikePumps);
         System.out.println(drawer);
-        new ParkingHandler(bikePumps).removeNonAvailable();
+        new ParkingHandler(bikePumps).removeNonAvailable(coor[0], coor[1]);
         drawer.createCirclesForParkings();
     }
 
