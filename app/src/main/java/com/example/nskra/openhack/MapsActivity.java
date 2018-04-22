@@ -41,7 +41,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected String latitude, longitude;
     protected boolean gps_enabled, network_enabled;
     double[] myCoor = new double[2];
-    CykelpumpData cpd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +81,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        cpd = new CykelpumpData(mMap, myCoor);
+        try {
+            CykelpumpData cpd = new CykelpumpData(mMap, myCoor);
+            //cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
+            cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=parkering_new&rows=-1"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -117,13 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         System.out.println("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
         myCoor[0] = location.getLatitude();
         myCoor[1] = location.getLongitude();
-        try {
 
-            //cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=cykelpumpar"));
-            cpd.execute(new URL("https://helsingborg.opendatasoft.com/api/records/1.0/search/?dataset=parkering_new&rows=-1"));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
 
     }
 
