@@ -3,6 +3,7 @@ package com.example.nskra.openhack;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -28,20 +29,27 @@ public class ParkingHandler {
 
         for(String parking: parkings.keySet()){
             Parkings p = parkings.get(parking);
-            if(p.getStatus().equals("ACTIVE"))continue;
+            if(!p.getStatus().equals("ACTIVE"))continue;
 
             DateTime current = new DateTime();
             int currentMinute = current.getMinuteOfDay();
-            String[] splitTime = p.getTime().split(":");
-
+            int startMinute = Integer.MAX_VALUE;
+            int endMinute = Integer.MIN_VALUE;
+            System.out.println(p.getPayTime());
+            String[] time = p.getPayTime().split("-");
+            String[] firstTime = time[0].split(":");
+            String[] secondtime = time[1].split(":");
+            System.out.println(Arrays.toString(time) + " " + Arrays.toString(firstTime) + " " + Arrays.toString(secondtime));
             try {
-                int minuteOfParking = Integer.parseInt()
+                startMinute = Integer.parseInt(firstTime[0])*60 + Integer.parseInt(firstTime[1]);
+                endMinute = Integer.parseInt(secondtime[0])*60 + Integer.parseInt(secondtime[1]);
+                System.out.println(startMinute + "-" + endMinute);
             }catch(Exception e){
                 System.out.println("Could not convert to int");
             }
-            if(currentTime){
+            if(currentMinute < startMinute || currentMinute > endMinute) continue;
 
-            }
+
         }
     }
 

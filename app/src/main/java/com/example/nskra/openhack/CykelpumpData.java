@@ -47,6 +47,7 @@ public class CykelpumpData extends AsyncTask<URL, Integer, Integer> {
         drawer = new CircleDrawer(bikePumps, mMap, 1);
         System.out.println(bikePumps);
         System.out.println(drawer);
+        new ParkingHandler(bikePumps).removeNonAvailable();
         drawer.createCirclesForParkings();
     }
 
